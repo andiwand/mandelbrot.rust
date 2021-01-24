@@ -26,6 +26,11 @@ impl Complex {
     }
 }
 
+fn color(iterations: u32, max_iterations: u32) -> Pixel {
+    let color = 255 - (255.0 * (iterations as f64) / (max_iterations as f64)) as u8;
+    px!(color, color, color)
+}
+
 fn main() {
     let min_x = -2.0;
     let max_x = 1.0;
@@ -33,7 +38,7 @@ fn main() {
     let max_y = 1.0;
     let sample_x = 3000;
     let sample_y = 2000;
-    let iterations = 1000;
+    let max_iterations = 1000;
 
     let mut img = Image::new(sample_x, sample_y);
 
@@ -45,13 +50,14 @@ fn main() {
             let c = Complex::new(c_x, c_y);
 
             let mut z = c.clone();
-            let mut iteration = 0;
-            while z.norm_squared() <= 4.0 && iteration < iterations {
+            let mut iterations = 0;
+            while z.norm_squared() <= 4.0 && iterations < max_iterations {
                 z = z.square().add(&c);
-                iteration += 1;
+                iterations += 1;
             }
-            let color = (255.0 * (iteration as f64) / (iterations as f64)) as u8;
-            img.set_pixel(i, j, px!(color, 0, 0));
+
+            let color = color(iterations, max_iterations);
+            img.set_pixel(i, j, color);
         }
     }
 
