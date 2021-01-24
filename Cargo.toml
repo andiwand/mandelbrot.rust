@@ -1,0 +1,8 @@
+[package]
+name = "mandelbrot"
+version = "1.0.0"
+edition = "2018"
+publish = false
+
+[dependencies]
+bmp = "0.5.0"
